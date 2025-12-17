@@ -4,108 +4,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <title>Instagram Feed - Bootstrap </title>
 
-    <title>Instagram Feed</title>
-    <!-- Para que funcionasen los botones de cambio de grid a vista post, no se si se debía hacer con javascript porque solo con
-     bootstrap no me funcionaba -->
-    <style>
-        #gridView,
-        #listView {
-            display: none;
-        }
-
-        .list {
-            display: none;
-        }
-
-        #listView:checked~.views .list {
-            display: block;
-        }
-
-        #listView:checked~.views .grid {
-            display: none;
-        }
-
-        #gridView:checked~.views .grid {
-            display: block;
-        }
-
-        #gridView:checked~.views .list {
-            display: none;
-        }
-
-        #gridView:checked~.buttons .label-grid,
-        #listView:checked~.buttons .label-list {
-            background-color: #0d6efd;
-            color: white;
-        }
-
-        .grid img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: .3rem;
-        }
-    </style>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
 <body class="bg-light">
 
-    <div class="container">
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-light bg-white border-bottom fixed-top">
+        <div class="container d-flex justify-content-between align-items-center">
+            <span class="navbar-brand fw-bold">
+                <i class="bi bi-instagram me-1"></i> Instagram
+            </span>
 
-        <!-- NAVBAR -->
-        <nav class="navbar fixed-top bg-light shadow-sm">
-            <div class="container-fluid d-flex justify-content-between align-items-center">
-                <a class="navbar-brand fw-bold" href="#">
-                    <i class="fa-brands fa-instagram me-1"></i> Instagram
-                </a>
-                <div class="d-flex align-items-center gap-2">
-                    <button class="btn btn-success btn-sm">Create a new post</button>
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            <i class="fa-solid fa-gear"></i>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
-                                <li><a class="dropdown-item" href="#">Accessibility</a></li>
-                                <li><a class="dropdown-item" href="#">Privacy and Data</a></li>
-                                <li class="list-group-item">Log Out</li>
-                            </ul>
-                        </button>
-                    </div>
+            <div class="d-flex gap-2 align-items-center">
+                <!-- Boton de crear Post -->
+                <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#createPostModal">
+                    Create a new post
+                </button>
 
-                </div>
-            </div>
-        </nav>
-
-
-        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#newPostModal">
-            Create a new post
-        </button>
-
-        <!-- Modal -->
-        <div class="modal fade" id="newPostModal" tabindex="-1" aria-labelledby="newPostModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="newPostModalLabel">Create a new Post</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-
-                    <div class="modal-body">
-                        <label for="caption" class="form-label">Caption</label>
-                        <textarea class="form-control" id="caption" rows="3"></textarea>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Publish</button>
-                    </div>
-
+                <!-- Boton de Ajustes -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="dropdown">
+                        <i class="bi bi-gear"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
+    </nav>
+
+    <!-- Recuadro Modal -->
+    <div class="modal fade" id="createPostModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create a new post</h5>
+                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <label class="form-label">Caption</label>
+                    <textarea class="form-control" rows="3"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button class="btn btn-primary">Publish</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="pt-5 mt-4"></div>
+
+    <div class="container">
+
+        <!-- Botones de las Vistas -->
+        <ul class="nav nav-pills justify-content-center my-3" id="viewTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#gridView" type="button">
+                    <i class="bi bi-grid-3x3-gap"></i>
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="pill" data-bs-target="#listView" type="button">
+                    <i class="bi bi-square"></i>
+                </button>
+            </li>
+        </ul>
+
+        <!-- vistas -->
+        <div class="tab-content">
+
+            <!-- Vista Cuadricula-->
+            <div class="tab-pane fade show active" id="gridView">
+                <div class="row g-2">
+                    <div class="col-4"><img class="img-fluid rounded"
+                            src="https://wallpapers.com/images/featured-full/4k-ultra-hd-paisaje-yva5dmhhj6fii9af.jpg">
+                    </div>
+                    <div class="col-4"><img class="img-fluid rounded"
+                            src="https://wallpapers.com/images/high/4k-ultra-hd-landscape-wallpaper-5guvboqu52lotsl3.webp">
+                    </div>
+                    <div class="col-4"><img class="img-fluid rounded"
+                            src="https://wallpapers.com/images/high/4k-ultra-hd-landscape-wallpaper-njh5fbbktq2ajbk2.webp">
+                    </div>
+                    <div class="col-4"><img class="img-fluid rounded"
+                            src="https://wallpapers.com/images/high/4k-ultra-hd-landscape-wallpaper-lozyqrhf7ortg1g7.webp">
+                    </div>
+                    <div class="col-4"><img class="img-fluid rounded"
+                            src="https://wallpapers.com/images/high/4k-ultra-hd-landscape-wallpaper-msx0bsqwmq8rf4cw.webp">
+                    </div>
+                    <div class="col-4"><img class="img-fluid rounded"
+                            src="https://wallpapers.com/images/high/4k-ultra-hd-landscape-wallpaper-hv2w1301z4yv73zq.webp">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vista de Lista -->
+            <div class="tab-pane fade" id="listView">
+                <div class="row justify-content-center g-4">
+
+                    <div class="col-12 col-md-8">
+                        <div class="card shadow-sm">
+                            <div class="card-header d-flex justify-content-between">
+                                <strong>Paisaje 1</strong><small class="text-muted">01/05</small>
+                            </div>
+                            <img class="card-img-top"
+                                src="https://wallpapers.com/images/featured-full/4k-ultra-hd-paisaje-yva5dmhhj6fii9af.jpg">
+                            <div class="card-body">
+                                <p class="text-muted mb-1"> 2252 Likes</p>
+                                <p class="mb-0">Un paisaje con montañas y cielo azul.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-8">
+                        <div class="card shadow-sm">
+                            <div class="card-header d-flex justify-content-between">
+                                <strong>Paisaje 2</strong><small class="text-muted">02/05</small>
+                            </div>
+                            <img class="card-img-top"
+                                src="https://wallpapers.com/images/high/4k-ultra-hd-landscape-wallpaper-5guvboqu52lotsl3.webp">
+                            <div class="card-body">
+                                <p class="text-muted mb-1"> 1984 Likes</p>
+                                <p class="mb-0">Una vista panorámica de un lago entre montañas.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
